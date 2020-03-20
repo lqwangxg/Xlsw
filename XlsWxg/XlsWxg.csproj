@@ -54,6 +54,7 @@
     <Compile Include="IOWxg.cs" />
     <Compile Include="OraXE.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UtilWxg.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

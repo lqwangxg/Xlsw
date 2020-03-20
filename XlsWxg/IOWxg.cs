@@ -3,10 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace XlsWxg
 {
@@ -48,7 +45,7 @@ namespace XlsWxg
                 foreach (FileInfo fi in di.GetFiles(searchPattern))
                 {
                     //ファイル名変更
-                    string fileName = ReplaceRegex(fi.Name, pattern, groupIndex, replacement);
+                    string fileName = UtilWxg.ReplaceMatchGroup(fi.Name, pattern, groupIndex, replacement);
                     if (!fileName.Equals(fi.Name))
                     {
                         string newFileName = fi.FullName.Replace(fi.Name, fileName);
@@ -61,7 +58,7 @@ namespace XlsWxg
                     }
                 }
                 //フォルダ名変更
-                string folderName = ReplaceRegex(di.Name, pattern, groupIndex, replacement);
+                string folderName = UtilWxg.ReplaceMatchGroup(di.Name, pattern, groupIndex, replacement);
                 if (!folderName.Equals(di.Name))
                 {
                     string newFolderName = di.FullName.Replace(di.Name, folderName);
@@ -82,36 +79,6 @@ namespace XlsWxg
             return ReplaceFile(new FileInfo(filePath), searchPattern, pattern, groupIndex, replacement);
         }
         
-        [ExcelFunction(Category = "String", Description = "Replace string")]
-        public static string ReplaceRegex(string input, string pattern, int groupIndex, string replacement)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("method=").AppendLine("ReplaceRegex");
-            sb.Append("input=").AppendLine(input);
-            sb.Append("pattern=").AppendLine(pattern);
-            sb.Append("groupIndex=").AppendLine(groupIndex.ToString());
-            sb.Append("replacement=").AppendLine(replacement);
-
-            Regex regex = new Regex(pattern, RegexOptions.Multiline | RegexOptions.IgnoreCase);
-            if (regex.IsMatch(input))
-            {
-                sb.Append("IsMatch=").AppendLine("OK");
-                Log(sb.ToString());
-                return regex.Replace(input, new MatchEvaluator(
-                    delegate (Match match)
-                    {
-                        return ReplaceCC(match, groupIndex, replacement);
-                    }));
-            }
-            else
-            {
-                sb.Append("IsMatch=").AppendLine("NG");
-                Log(sb.ToString());
-            }
-
-            return input;
-        }
-
         public static void Log(string content)
         {
             string isWriteLog = ConfigurationManager.AppSettings.Get("writeLog");
@@ -132,7 +99,7 @@ namespace XlsWxg
             {
                 string oldFileName = fi.FullName;
                 string input = File.ReadAllText(fi.FullName);
-                string replaced = ReplaceRegex(input, pattern, groupIndex, replacement);
+                string replaced = UtilWxg.ReplaceMatchGroup(input, pattern, groupIndex, replacement);
                 if(!input.Equals(replaced))
                 {
                     isChanged = true;
@@ -142,15 +109,7 @@ namespace XlsWxg
             }
             return isChanged;
         }
-                
-        private static string ReplaceCC(Match m, int groupIndex, string replacement)
-        {
-            if (m.Groups.Count == groupIndex) 
-            {
-                groupIndex--; 
-            }
-            return m.Value.Replace(m.Groups[groupIndex].Value, replacement);
-        }
+       
 
 
         #endregion
