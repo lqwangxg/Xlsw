@@ -2,12 +2,8 @@
 using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace XlsWxg
 {
@@ -34,7 +30,7 @@ namespace XlsWxg
                             {
                                 adapter.Fill(dt);
                             }
-                            lstValue.Add(DataTabletoString(dt));
+                            lstValue.Add(UtilWxg.DataTabletoString(dt));
                         }
                         else
                         {
@@ -74,7 +70,7 @@ namespace XlsWxg
             }
             if (ds.Tables.Count == 0) return string.Empty;
 
-            return DataTabletoString(ds.Tables[0]);
+            return UtilWxg.DataTabletoString(ds.Tables[0]);
         }
 
         [ExcelFunction(Category = "Database", Description = "Select  one object by ExecuteScalar, Return object value.")]
@@ -120,31 +116,6 @@ namespace XlsWxg
                 IOWxg.Log(ex.StackTrace);
             }            
             return retValue;
-        }
-
-        private static string DataTabletoString(DataTable dt)
-        {
-            string header = string.Join("|", dt.Columns.OfType<DataColumn>().Select(x => x.ColumnName));
-            List<string> lstTable = new List<string>();
-            foreach (DataRow row in dt.Rows)
-            {
-                List<string> lstRow = new List<string>();
-                lstRow.Clear();
-                foreach (DataColumn col in dt.Columns)
-                {
-                    if (!row.IsNull(col))
-                    {
-                        lstRow.Add(row[col].ToString());
-                    }
-                    else
-                    {
-                        lstRow.Add(string.Empty);
-                    }
-                }
-                lstTable.Add(string.Join("|", lstRow));
-            }
-            string datas = string.Join(Environment.NewLine, lstTable);
-            return header + Environment.NewLine + datas;
         }
 
     }

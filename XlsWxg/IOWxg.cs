@@ -10,11 +10,37 @@ namespace XlsWxg
     public class IOWxg
     {
 
-        [ExcelFunction(Category = "String", Description = "Log string to currentDiretory.")]
-        public static void AppendTextFile(string path, string content)
+        [ExcelFunction(Category = "String", Description = "AppendTextFile")]
+        public static void AppendTextFile(string path, string content, string encoding)
         {
-            File.AppendAllText(path, content, Encoding.UTF8);
+            Encoding ec = Encoding.UTF8;
+            if (!string.IsNullOrEmpty(encoding))
+            {
+                ec = Encoding.GetEncoding(encoding);
+            }
+            File.AppendAllText(path, content, ec);
         }
+        [ExcelFunction(Category = "String", Description = "ReadAllText")]
+        public static string ReadAllText(string path, string encoding)
+        {
+            Encoding ec = Encoding.UTF8;
+            if (!string.IsNullOrEmpty(encoding)) 
+            {
+                ec = Encoding.GetEncoding(encoding);
+            }
+            return File.ReadAllText(path, ec);
+        }
+        [ExcelFunction(Category = "String", Description = "LogWriteAllText")]
+        public static void WriteAllText(string path, string content, string encoding)
+        {
+            Encoding ec = Encoding.UTF8;
+            if (!string.IsNullOrEmpty(encoding))
+            {
+                ec = Encoding.GetEncoding(encoding);
+            }
+            File.WriteAllText(path, content, ec);
+        }
+
 
         [ExcelFunction(Category = "File", Description = "Replace string in text file under directory")]
 
