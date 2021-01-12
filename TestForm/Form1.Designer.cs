@@ -30,26 +30,115 @@ namespace TestForm
         private void InitializeComponent()
         {
             this.btnTest = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtFilePath = new System.Windows.Forms.TextBox();
+            this.libCondition = new System.Windows.Forms.GroupBox();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.txtResult = new System.Windows.Forms.RichTextBox();
+            this.txtFilter = new System.Windows.Forms.TextBox();
+            this.libCondition.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnTest
             // 
-            this.btnTest.Location = new System.Drawing.Point(100, 36);
+            this.btnTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnTest.Location = new System.Drawing.Point(572, 10);
             this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(184, 66);
+            this.btnTest.Size = new System.Drawing.Size(38, 46);
             this.btnTest.TabIndex = 0;
-            this.btnTest.Text = "TEST";
+            this.btnTest.Text = "OK";
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(44, 12);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "filePath";
+            // 
+            // txtFilePath
+            // 
+            this.txtFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFilePath.Location = new System.Drawing.Point(67, 12);
+            this.txtFilePath.Name = "txtFilePath";
+            this.txtFilePath.Size = new System.Drawing.Size(499, 19);
+            this.txtFilePath.TabIndex = 2;
+            this.txtFilePath.Text = "C:\\tmp\\wangx\\_projects\\航空電子\\develop\\jae\\jae\\src\\main\\jssp\\src\\jae\\0000_common\\pro" +
+    "posal\\act_apprv.html";
+            // 
+            // libCondition
+            // 
+            this.libCondition.Controls.Add(this.label1);
+            this.libCondition.Controls.Add(this.btnTest);
+            this.libCondition.Controls.Add(this.txtFilter);
+            this.libCondition.Controls.Add(this.txtFilePath);
+            this.libCondition.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.libCondition.Location = new System.Drawing.Point(0, 0);
+            this.libCondition.Name = "libCondition";
+            this.libCondition.Size = new System.Drawing.Size(616, 67);
+            this.libCondition.TabIndex = 3;
+            this.libCondition.TabStop = false;
+            this.libCondition.Text = "Condition";
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.libCondition);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.txtResult);
+            this.splitContainer1.Size = new System.Drawing.Size(616, 247);
+            this.splitContainer1.SplitterDistance = 67;
+            this.splitContainer1.TabIndex = 4;
+            // 
+            // txtResult
+            // 
+            this.txtResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtResult.Location = new System.Drawing.Point(0, 0);
+            this.txtResult.Name = "txtResult";
+            this.txtResult.Size = new System.Drawing.Size(616, 176);
+            this.txtResult.TabIndex = 0;
+            this.txtResult.Text = "";
+            // 
+            // txtFilter
+            // 
+            this.txtFilter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtFilter.Location = new System.Drawing.Point(67, 37);
+            this.txtFilter.Name = "txtFilter";
+            this.txtFilter.Size = new System.Drawing.Size(499, 19);
+            this.txtFilter.TabIndex = 2;
+            this.txtFilter.Text = "//input[@type=\'button\'];//title;//a";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(412, 146);
-            this.Controls.Add(this.btnTest);
+            this.ClientSize = new System.Drawing.Size(616, 247);
+            this.Controls.Add(this.splitContainer1);
             this.Name = "Form1";
             this.Text = "Test";
+            this.libCondition.ResumeLayout(false);
+            this.libCondition.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -57,6 +146,12 @@ namespace TestForm
         #endregion
 
         private System.Windows.Forms.Button btnTest;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtFilePath;
+        private System.Windows.Forms.GroupBox libCondition;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.RichTextBox txtResult;
+        private System.Windows.Forms.TextBox txtFilter;
     }
 }
 

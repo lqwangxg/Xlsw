@@ -45,6 +45,7 @@ namespace XlsWxg
 
             return input;
         }
+        [ExcelFunction(Category = "String", Description = "Get Match Group string")]
         public static string GetMatchGroup(string input, string pattern, int groupIndex) 
         {
             Match m = Regex.Match(input, pattern);
@@ -62,7 +63,6 @@ namespace XlsWxg
         {
             return m.Value.Replace(m.Groups[groupIndex].Value, replacement);
         }
-
 
         public static string DataTabletoString(DataTable dt)
         {
