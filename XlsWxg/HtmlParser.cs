@@ -2,6 +2,7 @@
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -11,11 +12,27 @@ namespace XlsWxg
 {
     public class HtmlParser
     {
+        public static Encoding thisEncoding
+        {
+            get
+            {
+                string encoding = ConfigurationManager.AppSettings.Get("encoding");
+                if (string.IsNullOrEmpty(encoding))
+                {
+                    return Encoding.UTF8;
+                }
+                else
+                {
+                    return Encoding.GetEncoding(encoding);
+                }
+            }
+        }
         [ExcelFunction(Category = "String", Description = "Get Match Group string")]
         public static string GetInnerText(string htmlpath, string findString)
         {
+            
             var htmlDoc = new HtmlDocument();
-            htmlDoc.Load(htmlpath);
+            htmlDoc.Load(htmlpath, thisEncoding);
 
             string[] finds = findString.Split(";".ToCharArray());
             Dictionary<string,  HtmlNodeCollection> lstNode = new Dictionary<string, HtmlNodeCollection>();
