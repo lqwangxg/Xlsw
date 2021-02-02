@@ -1,12 +1,15 @@
-﻿using Oracle.ManagedDataAccess.Client;
-using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System;
 using System.Data.Common;
+using System.Data;
+using System.Data.SqlClient;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace XlsWxg
 {
-    internal class OraXE
+    internal class SQLServerDriver
     {
         public static string Batch(string sql, string dataSource)
         {
@@ -16,10 +19,10 @@ namespace XlsWxg
             List<string> lstValue = new List<string>();
             try
             {
-                using (var con = new OracleConnection(dataSource))
+                using (var con = new SqlConnection(dataSource))
                 {
                     con.Open();
-                    DbTransaction transaction =  con.BeginTransaction();
+                    DbTransaction transaction = con.BeginTransaction();
 
                     string[] sqls = sql.Split(";".ToCharArray());
                     foreach (var sql1 in sqls)
@@ -27,7 +30,7 @@ namespace XlsWxg
                         if (sql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
                         {
                             DataTable dt = new DataTable();
-                            using (var adapter = new OracleDataAdapter(sql1, con))
+                            using (var adapter = new SqlDataAdapter(sql1, con))
                             {
                                 adapter.Fill(dt);
                             }
@@ -35,7 +38,7 @@ namespace XlsWxg
                         }
                         else
                         {
-                            using (var cmd = new OracleCommand(sql1, con))
+                            using (var cmd = new SqlCommand(sql1, con))
                             {
                                 int count = cmd.ExecuteNonQuery();
                                 lstValue.Add(count.ToString());
@@ -52,7 +55,7 @@ namespace XlsWxg
             }
             return string.Join(";", lstValue);
         }
-        
+
         public static string Query(string sql, string dataSource)
         {
             IOWxg.Log(string.Format("sql:{0}", sql));
@@ -61,12 +64,12 @@ namespace XlsWxg
             DataSet ds = new DataSet();
             try
             {
-                using (var adapter = new OracleDataAdapter(sql, dataSource))
+                using (var adapter = new SqlDataAdapter(sql, dataSource))
                 {
                     adapter.Fill(ds);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 IOWxg.Log(ex.StackTrace);
                 return "error:" + ex.Message;
@@ -84,10 +87,10 @@ namespace XlsWxg
             object retValue;
             try
             {
-                using (var con = new OracleConnection(dataSource))
+                using (var con = new SqlConnection(dataSource))
                 {
                     con.Open();
-                    OracleCommand cmd = new OracleCommand(sql, con);
+                    DbCommand cmd = new SqlCommand(sql, con);
                     retValue = cmd.ExecuteScalar();
                 }
             }
@@ -95,7 +98,7 @@ namespace XlsWxg
             {
                 retValue = "error:" + ex.Message;
                 IOWxg.Log(ex.Message);
-            }            
+            }
             return retValue;
         }
 
@@ -107,10 +110,10 @@ namespace XlsWxg
             string retValue;
             try
             {
-                using (var con = new OracleConnection(dataSource))
+                using (var con = new SqlConnection(dataSource))
                 {
                     con.Open();
-                    OracleCommand cmd = new OracleCommand(sql, con);
+                    DbCommand cmd = new SqlCommand(sql, con);
                     int count = cmd.ExecuteNonQuery();
                     retValue = count.ToString();
                     con.Close();
@@ -118,9 +121,9 @@ namespace XlsWxg
             }
             catch (Exception ex)
             {
-                retValue = "error:"+ ex.Message;
+                retValue = "error:" + ex.Message;
                 IOWxg.Log(ex.StackTrace);
-            }            
+            }
             return retValue;
         }
 
