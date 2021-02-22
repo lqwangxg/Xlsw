@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using System.IO;
 using System.Windows.Forms;
 using XlsWxg;
 namespace TestForm
@@ -15,16 +10,40 @@ namespace TestForm
         public FormHtmlParser()
         {
             InitializeComponent();
+            LoadHistory();
+        }
+        private void LoadHistory()
+        {
+            if (!File.Exists(HtmlParser.HistoryFile)) return;
+            string[] lines = File.ReadAllLines(HtmlParser.HistoryFile);
+            foreach(string line in lines)
+            {
+                listHistory.Items.Add(line);
+            }
         }
 
         private void btnTest_Click(object sender, EventArgs e)
         {
-            //string oracon = "User ID=proposal; Password=proposal; Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=192.16.108.26)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=BRONZEPDB)))";
-            //string result = OraXE.Query("select sysdate from dual", oracon);
-            //IOWxg.Log(result);
+            if (string.IsNullOrEmpty(txtFilter.Text)) return;
 
-            txtResult.Text = HtmlParser.GetInnerText(txtFilePath.Text,txtFilter.Text);
+            try
+            {
+                txtResult.Text = HtmlParser.GetInnerText(txtFilePath.Text, txtFilter.Text);
+                File.AppendAllText(HtmlParser.HistoryFile, txtFilter.Text + @"\n", Config.Encoding);
+                listHistory.Items.Add(txtFilter.Text);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n"+ ex.StackTrace,"Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
+        private void listHistory_DoubleClick(object sender, EventArgs e)
+        {
+            if (listHistory.SelectedIndex > -1)
+            {
+                txtResult.Text = listHistory.SelectedItem.ToString();
+            }
         }
     }
 }

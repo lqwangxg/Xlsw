@@ -46,7 +46,7 @@ namespace TestForm
             // btnTest
             // 
             this.btnTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTest.Location = new System.Drawing.Point(572, 10);
+            this.btnTest.Location = new System.Drawing.Point(1024, 10);
             this.btnTest.Name = "btnTest";
             this.btnTest.Size = new System.Drawing.Size(38, 46);
             this.btnTest.TabIndex = 0;
@@ -69,7 +69,7 @@ namespace TestForm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFilePath.Location = new System.Drawing.Point(67, 12);
             this.txtFilePath.Name = "txtFilePath";
-            this.txtFilePath.Size = new System.Drawing.Size(499, 19);
+            this.txtFilePath.Size = new System.Drawing.Size(951, 19);
             this.txtFilePath.TabIndex = 2;
             this.txtFilePath.Text = "www.google.co.jp";
             // 
@@ -82,7 +82,7 @@ namespace TestForm
             this.libCondition.Dock = System.Windows.Forms.DockStyle.Fill;
             this.libCondition.Location = new System.Drawing.Point(0, 0);
             this.libCondition.Name = "libCondition";
-            this.libCondition.Size = new System.Drawing.Size(616, 96);
+            this.libCondition.Size = new System.Drawing.Size(1068, 196);
             this.libCondition.TabIndex = 3;
             this.libCondition.TabStop = false;
             this.libCondition.Text = "Condition";
@@ -93,7 +93,7 @@ namespace TestForm
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtFilter.Location = new System.Drawing.Point(67, 37);
             this.txtFilter.Name = "txtFilter";
-            this.txtFilter.Size = new System.Drawing.Size(499, 19);
+            this.txtFilter.Size = new System.Drawing.Size(951, 19);
             this.txtFilter.TabIndex = 2;
             this.txtFilter.Text = "//input[@type=\'button\']";
             // 
@@ -111,8 +111,8 @@ namespace TestForm
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.txtResult);
-            this.splitContainer1.Size = new System.Drawing.Size(616, 247);
-            this.splitContainer1.SplitterDistance = 96;
+            this.splitContainer1.Size = new System.Drawing.Size(1068, 506);
+            this.splitContainer1.SplitterDistance = 196;
             this.splitContainer1.TabIndex = 4;
             // 
             // txtResult
@@ -120,7 +120,7 @@ namespace TestForm
             this.txtResult.Dock = System.Windows.Forms.DockStyle.Fill;
             this.txtResult.Location = new System.Drawing.Point(0, 0);
             this.txtResult.Name = "txtResult";
-            this.txtResult.Size = new System.Drawing.Size(616, 147);
+            this.txtResult.Size = new System.Drawing.Size(1068, 306);
             this.txtResult.TabIndex = 0;
             this.txtResult.Text = "";
             // 
@@ -128,7 +128,7 @@ namespace TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(616, 247);
+            this.ClientSize = new System.Drawing.Size(1068, 506);
             this.Controls.Add(this.splitContainer1);
             this.Name = "FormIEWebDriver";
             this.Text = "IEWebDriver";
