@@ -53,9 +53,9 @@ namespace XlsWxg
                 {
                     if (n.Attributes.Contains("type"))
                     {
-                        sb.Append("type:").Append(n.Attributes["type"]).Append(",");
+                        sb.Append("type:").Append(n.Attributes["type"].Value).Append(",");
                     }
-                    sb.Append("html:").Append(n.OuterHtml);
+                    sb.Append(n.OuterHtml);
                     sb.AppendLine();
                 }
             }
