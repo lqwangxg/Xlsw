@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using XlsWxg;
 using HtmlAgilityPack;
+using System.Text;
 
 namespace TestForm
 {
@@ -15,6 +16,7 @@ namespace TestForm
     {
         private HashSet<string> rules = new HashSet<string>();
         private HighLight hlFileContent;
+         
         public RegexTabPage()
         {
             InitializeComponent();
@@ -33,7 +35,18 @@ namespace TestForm
         /// <param name="e"></param>
         public void SaveRules(string filepath)
         {
-            
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine(string.Format("folderPath:{0}", txtFilePath.Text));
+                sb.AppendLine(string.Format("fileExt:{0}", txtExtPattern.Text));
+                sb.AppendLine(string.Format("xpathPattern:{0}", txtFilter.Text));
+                File.WriteAllText(filepath, sb.ToString());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message + "\n" + e.StackTrace, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -45,9 +58,26 @@ namespace TestForm
         {
             try
             {
-               
-
-
+                string[] lines = File.ReadAllLines(filepath);
+                foreach(string line in lines)
+                {
+                    Match m = Regex.Match(line, @"(\w+):(.+)");
+                    if (m.Success)
+                    {
+                        if (m.Groups[1].Value.Equals("folderPath"))
+                        {
+                            txtFilePath.Text = m.Groups[2].Value;
+                        }
+                        else if (m.Groups[1].Value.Equals("fileExt"))
+                        {
+                            txtExtPattern.Text = m.Groups[2].Value;
+                        }
+                        else if (m.Groups[1].Value.Equals("xpathPattern"))
+                        {
+                            txtFilter.Text = m.Groups[2].Value;
+                        }
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -98,7 +128,6 @@ namespace TestForm
 
                 if (!rules.Contains(txtFilter.Text))
                 {
-                    File.AppendAllText(HtmlParser.HistoryFile, txtFilter.Text + @"\n", Config.Encoding);
                     rules.Add(txtFilter.Text);
                     listHistory.Items.Add(txtFilter.Text);
                 }
@@ -107,6 +136,10 @@ namespace TestForm
             {
                 MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        public void SaveBeforeClosed(object sender, EventArgs e)
+        {
+
         }
         private void ConvertHtmlNode(TreeNode treeNode, HtmlNode htmlNode)
         {
@@ -125,6 +158,11 @@ namespace TestForm
             {
                 listHistory.Items.Add(line);
             }
+        }
+        private void SaveHistory()
+        {
+            string content = string.Join("\n", rules);
+            File.WriteAllText(HtmlParser.HistoryFile, content);
         }
         private void listHistory_DoubleClick(object sender, EventArgs e)
         {
@@ -159,6 +197,7 @@ namespace TestForm
                 foreach (string file in lstFiles)
                 {
                     topNode.Nodes.Add(file, file.Replace(txtFilePath.Text, "."));
+                    IOWxg.Log(file+"\n");
                 }
             }
 
@@ -187,6 +226,20 @@ namespace TestForm
                 int index = int.Parse(sindex);
                 txtFileContent.Select(index, e.Node.Text.Length);
                 txtFileContent.ScrollToCaret();
+            }
+        }
+
+        private void listHistory_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Delete:
+                    if(listHistory.SelectedIndex !=-1)
+                    {
+                        rules.Remove(listHistory.SelectedItem.ToString());
+                        listHistory.Items.RemoveAt(listHistory.SelectedIndex);
+                    }
+                    break;
             }
         }
     }

@@ -11,9 +11,9 @@ namespace XlsWxg
     {
         public static string GetAppSettingValue(string key)
         {
-            return GetAppSettingValue(key, string.Empty);
+            return GetAppSettingValue2(key, string.Empty);
         }
-        public static string GetAppSettingValue(string key, string defaultValue)
+        public static string GetAppSettingValue2(string key, string defaultValue)
         {
             string value = ConfigurationManager.AppSettings.Get(key);
             if (string.IsNullOrEmpty(value))
@@ -30,7 +30,7 @@ namespace XlsWxg
         {
             get
             {
-                string encoding = GetAppSettingValue("encoding", "UTF-8");
+                string encoding = GetAppSettingValue2("encoding", "UTF-8");
                 return Encoding.GetEncoding(encoding);
             }
         }

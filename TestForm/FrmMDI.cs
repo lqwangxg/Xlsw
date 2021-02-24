@@ -70,7 +70,7 @@ namespace TestForm
 
                 Control[] ctrs = tabWindow.SelectedTab.Controls.Find("RegexTabPage", false);
                 RegexTabPage regexTab = (RegexTabPage)ctrs.First();
-                //regexTab.LoadRules(openFileDialog.FileName);
+                regexTab.LoadRules(openFileDialog.FileName);
             }
         }
 
@@ -107,6 +107,7 @@ namespace TestForm
         private void mnuCloseTab_Click(object sender, EventArgs e)
         {
             TabPage closingPage = tabWindow.SelectedTab;
+            
             tabWindow.TabPages.Remove(closingPage);
             closingPage.Dispose();
         }

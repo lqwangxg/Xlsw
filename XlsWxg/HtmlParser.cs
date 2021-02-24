@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
-
+using System.Text.RegularExpressions;
 
 namespace XlsWxg
 {
@@ -16,7 +16,7 @@ namespace XlsWxg
         {
             get
             {
-                return Config.GetAppSettingValue("history.file", "history.txt");
+                return Config.GetAppSettingValue2("history.file", "history.txt");
             }
         }
 
@@ -28,11 +28,8 @@ namespace XlsWxg
             StringBuilder sb = new StringBuilder();
             foreach (KeyValuePair<string, HtmlNodeCollection> kv in lstNode)
             {
-                string tagName = UtilWxg.GetMatchGroup(kv.Key, @"\/\/(\w+)", 1);
-                sb.Append("##").Append(kv.Key).AppendLine();
                 foreach (var n in kv.Value)
                 {
-                    sb.Append("tag:").Append(tagName).Append(",");
                     foreach (var atr in n.Attributes)
                     {
                         sb.Append(atr.Name).Append(":").Append(atr.Value).Append(",");
@@ -52,11 +49,12 @@ namespace XlsWxg
             StringBuilder sb = new StringBuilder();
             foreach (KeyValuePair<string, HtmlNodeCollection> kv in lstNode)
             {
-                string tagName = UtilWxg.GetMatchGroup(kv.Key, @"\/\/(\w+)", 1);
-                sb.Append("##").Append(kv.Key).AppendLine();
                 foreach (var n in kv.Value)
                 {
-                    sb.Append("tag:").Append(tagName).Append(",");
+                    if (n.Attributes.Contains("type"))
+                    {
+                        sb.Append("type:").Append(n.Attributes["type"]).Append(",");
+                    }
                     sb.Append("html:").Append(n.OuterHtml);
                     sb.AppendLine();
                 }
@@ -69,7 +67,7 @@ namespace XlsWxg
             var htmlDoc = new HtmlDocument();
             htmlDoc.Load(htmlpath, Config.Encoding);
 
-            string[] finds = findString.Split(";".ToCharArray());
+            string[] finds = Regex.Split(findString, @";|\n");
             Dictionary<string, HtmlNodeCollection> lstNode = new Dictionary<string, HtmlNodeCollection>();
             foreach (var key in finds)
             {
