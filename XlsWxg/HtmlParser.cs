@@ -44,6 +44,26 @@ namespace XlsWxg
             
             return WebUtility.HtmlDecode(sb.ToString());
         }
+        [ExcelFunction(Category = "String", Description = "Get Match Group string")]
+        public static string GetOutHtml(string htmlpath, string findString)
+        {
+            Dictionary<string, HtmlNodeCollection> lstNode = GetNodes(htmlpath, findString);
+
+            StringBuilder sb = new StringBuilder();
+            foreach (KeyValuePair<string, HtmlNodeCollection> kv in lstNode)
+            {
+                string tagName = UtilWxg.GetMatchGroup(kv.Key, @"\/\/(\w+)", 1);
+                sb.Append("##").Append(kv.Key).AppendLine();
+                foreach (var n in kv.Value)
+                {
+                    sb.Append("tag:").Append(tagName).Append(",");
+                    sb.Append("html:").Append(n.OuterHtml);
+                    sb.AppendLine();
+                }
+            }
+
+            return WebUtility.HtmlDecode(sb.ToString());
+        }
         public static Dictionary<string, HtmlNodeCollection> GetNodes(string htmlpath, string findString)
         {
             var htmlDoc = new HtmlDocument();
